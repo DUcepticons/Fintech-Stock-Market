@@ -4,10 +4,10 @@ import csv
 Tagged_list= []
 T =()
 news=[]
-#sentence = "Stocks rebound riding on GP. A leading broker said bargain hunters showed their appetite on selective large-cap shares, particularly on heavyweight GP, amid positive news surrounding the GP."
+
 PerNewsTags = []
 expected_pos = ["JJ","JJR","JJS","NNS","RB","RBR","RBS","VB","VBD","VBG","VBN","VBP","VBZ"]
-cut_out = ["'s","s", '+0.08','in', '13-week', '2015-16', '2018-19', '2019-20', '27-member', '4,800-mark', '4-month','up1.9', '5th', '6,100-mark', '6,200-mark', '72.1percent', 'a11.8','–', '’', '“', '”', 'is', 'be', 'has','are','been','have','did','was','tk','also','said','till','soon','then','yet','had','were']
+cut_out = ['is', 'be', 'has','are','been','have','did','was','tk','also','said','till','soon','then','yet','had','were',"'s","s", '+0.08','in', '13-week', '2015-16', '2018-19', '2019-20', '27-member', '4,800-mark', '4-month','up1.9', '5th', '6,100-mark', '6,200-mark', '72.1percent', 'a11.8','–', '’', '“', '”']
 
 with open('GP-Square-Pharma-2010-2019.csv',encoding="utf-8") as file:
     reader = csv.DictReader(file, delimiter=',')
