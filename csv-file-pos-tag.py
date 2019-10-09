@@ -47,4 +47,4 @@ with open('Result.csv', mode='w', newline='') as file:
 # VBN: verb, past participle
 # VBP: verb, present tense, not 3rd person singular
 # VBZ: verb, present tense, 3rd person singular
-# IN: preposition or conjunction, subordinating
+
