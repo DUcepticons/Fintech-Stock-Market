@@ -10,9 +10,9 @@ news=[]
 All_words = []
 
 expected_pos = ["JJ","JJR","JJS","NNS","RB","RBR","RBS","VB","VBD","VBG","VBN","VBP","VBZ"]  # NN ta katlam
-cut_out = ['is', 'be', 'has','are','been','have','did','was','tk','also','said','till','soon','then','yet',"n't","'s","s", '+0.08', '13-week', '2015-16', '2018-19', '2019-20', '27-member', '4,800-mark', '4-month','up1.9', '5th', '6,100-mark', '6,200-mark', '72.1percent', 'a11.8','–', '’', '“', '”']
+cut_out = ['is', 'be', 'has','are','been','have','did','was','tk','also','said','till','soon','then','yet','am','per','us',"n't","'s","s", '+0.08', '13-week', '2015-16', '2018-19', '2019-20', '27-member', '4,800-mark', '4-month','up1.9', '5th', '6,100-mark', '6,200-mark', '72.1percent', 'a11.8','–', '’', '“', '”']
 
-with open('GP-Square Pharma 2010-2019.csv',encoding="utf-8") as file:
+with open('GP-Square-Pharma-2010-2019.csv',encoding="utf-8") as file:
     reader = csv.DictReader(file, delimiter=',')
     for row in reader:
     	word_token = nltk.word_tokenize(row["News"])
@@ -35,7 +35,7 @@ with open('Dataset Matrix.csv', mode='w', newline='') as file:
     writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
     writer.writerow(All_words)
     del All_words[-1]#delete Binary Score after writing in column
-    with open('GP-Square Pharma 2010-2019.csv',encoding="utf-8") as file:
+    with open('GP-Square-Pharma-2010-2019.csv',encoding="utf-8") as file:
     	reader = csv.DictReader(file, delimiter=',')
     	for row in reader:
     		for word in All_words:
