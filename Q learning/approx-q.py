@@ -54,18 +54,17 @@ def buy(state_array,iteration_number):
     for i in range (iteration_number-15, iteration_number):
         if(gp_price[i+1]>gp_price[i]):
 		
-            gp_better+=1
+            gp_better+=(gp_price[i+1]-gp_price[i])
 		
         else:	
-            gp_better-=1			
+            gp_better-=(gp_price[i]-gp_price[i+1])			
 		
         if(sq_price[i+1]>sq_price[i]):
 		
-            sq_better+=1
+            sq_better+=(sq_price[i+1]-sq_price[i])
 		
-        else:
-		
-            sq_better-=1			
+        else:	
+            sq_better-=(sq_price[i]-sq_price[i+1])			
 		
 
     if(gp_better>sq_better):
@@ -77,7 +76,8 @@ def buy(state_array,iteration_number):
          while(state_array[4] > state_array[3]):
              state_array[4]-=state_array[3]
              state_array[1]+=1        
- 
+
+
 #^Will add a system to buy 1 of the worse share with remaining money, maybe studying trend        
 
 #Get value of all stocks and cash
@@ -86,7 +86,8 @@ def get_value(state_array):
     return value
 
 #features 
-    
+
+#Number of Stocks of each asset    
 def f0(state_array,x):
     number_of_stocks= state_array[0]+state_array[1]  
     
@@ -97,15 +98,17 @@ def f0(state_array,x):
     if x=="h":
         return 0.11*number_of_stocks
 
+#Current Stock Price of each asset
 def f1(state_array,x):
     price_of_stocks = state_array[2]+state_array[3]  
     if x=="b":
-        return 0.03*price_of_stocks
+        return 3*price_of_stocks
     if x=="s":
-        return 0.002*price_of_stocks
+        return 0.2*price_of_stocks
     if x=="h":
-        return 0.011*price_of_stocks
+        return 1.1*price_of_stocks
 
+#Cash in Hand
 def f2(state_array,x):
     cash_in_hand= state_array[4]  
     if x=="b":
@@ -141,7 +144,7 @@ weight=[100,6,7]
 action= optimal_action(state)
 
 
-for i in range (0,35):
+for i in range (0,100):
 
     if(action=="b"):
         buy(state,iteration)
