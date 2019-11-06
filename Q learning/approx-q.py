@@ -90,7 +90,7 @@ def get_value(state_array):
 
 #Defining the features
 
-#Feature 1 is Number of Stocks of each asset, multiplying a random number for each action to normalize value, which is found by testing :3   
+#Feature 0 is Number of Stocks of each asset, multiplying a random number for each action to normalize value, which is found by testing :3   
 def f0(state_array,x):
     number_of_stocks= state_array[0]+state_array[1]  
     
@@ -101,7 +101,7 @@ def f0(state_array,x):
     if x=="h":
         return 0.11*number_of_stocks
 
-#Feature 2 is Current Stock Price of each asset
+#Feature 1 is Current Stock Price of each asset
 def f1(state_array,x):
     price_of_stocks = state_array[2]+state_array[3]  
     if x=="b":
