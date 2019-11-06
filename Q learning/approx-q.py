@@ -78,7 +78,7 @@ def buy(state_array,iteration_number):
              state_array[4]-=state_array[3]
              state_array[1]+=1        
  
-        
+#^Will add a system to buy 1 of the worse share with remaining money, maybe studying trend        
 
 #Get value of all stocks and cash
 def get_value(state_array):
@@ -136,7 +136,7 @@ exploration=0.01
 
 #We start from day 16
 iteration=15 
-state=[0,0,gp_price[iteration],sq_price[iteration],initial_tk]
+state=[0,0,gp_price[iteration],sq_price[iteration],initial_tk] #(Stock 1 in hand, Stock 2 in hand, Stock 1 price, Stock 2 Price, Cash in hand)
 weight=[100,6,7]
 action= optimal_action(state)
 
