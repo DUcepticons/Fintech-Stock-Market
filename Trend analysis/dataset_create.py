@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import tensorflow as tf
+from statistics import mean
 
 
 data = pd.read_csv("gpdata.csv")
@@ -53,12 +54,32 @@ for i in range(15,len(data)):
             
             MACD.append(EMA12[i-25]-EMA26[i-25])
         
-        
+     
+maxMA = max(MA)
+minMA = min(MA)
+maxMACD = max(MACD)
+minMACD = min(MACD)
+maxK = max(K)
+minK = min(K)
+maxD = max(D)
+minD = min(D)
+maxR = max(R)
+minR = min(R)
+for i in range(0,len(MA)):
+    MA[i] = (MA[i] - mean(MA))/(maxMA-minMA)
+    K[i] = (K[i] - mean(K))/(maxK-minK)
+    R[i] = (R[i] - mean(R))/(maxR-minR)
+for i in range(0,len(MACD)):
+    MACD[i] = (MACD[i] - mean(MACD))/(maxMACD-minMACD)
+for i in range(0,len(D)):
+    D[i] = (D[i] - mean(D))/(maxD-minD)    
+    
+    
 t_data = [cp[26:],MA[11:],MACD,K[11:],D[10:],R[11:],trend[26:]]
 df = pd.DataFrame(t_data)
 df = df.T
 df.columns = ['CP','MA','MACD','K','D','R','Trend']
-export_csv = df.to_csv (r'export_dataframe.csv', index = None, header=True)
+export_csv = df.to_csv (r'gptrendnormal.csv', index = None, header=True)
 
 
 #plt.plot(cp[15:])
