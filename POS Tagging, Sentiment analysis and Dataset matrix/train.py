@@ -15,9 +15,9 @@ data = pd.read_csv("Dataset Matrix.csv")
 X_train = (data.iloc[:450,:-1].values).astype('float32')
 Y_train = (data.iloc[:450,-1].values).astype('float32')
 
-X_test = (data.iloc[450:-6,:-1].values).astype('float32')
-Y_test = (data.iloc[450:-6,-1].values).astype('float32')
-X_check = (data.iloc[-6:,:-1].values).astype('float32')
+X_test = (data.iloc[450:-10,:-1].values).astype('float32')
+Y_test = (data.iloc[450:-10,-1].values).astype('float32')
+X_check = (data.iloc[-10:,:-1].values).astype('float32')
 
 model = tf.keras.models.Sequential()
 model.add(tf.keras.layers.Dense(1894, activation=tf.nn.sigmoid))

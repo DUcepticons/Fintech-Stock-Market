@@ -12,7 +12,7 @@ import tensorflow as tf
 from statistics import mean
 
 
-data = pd.read_csv("gpdata.csv")
+data = pd.read_csv("sqdata.csv")
 cp = (data.iloc[:,1].values).astype('float32')
 high = (data.iloc[:,3].values).astype('float32')
 low = (data.iloc[:,4].values).astype('float32')
@@ -44,7 +44,7 @@ for i in range(15,len(data)):
         K.append(((cp[i]-min(low[i-15:i]))*100)/(max(high[i-15:i])-min(low[i-15:i])))
         R.append(((max(high[i-15:i])-cp[i])*100)/(max(high[i-15:i])-min(low[i-15:i])))
         
-        if i>=16:
+        if i>=17:
             D.append((K[i-15-2]+K[i-15-1]+K[i-15])/3)
             
         if i>=26:
@@ -54,7 +54,7 @@ for i in range(15,len(data)):
             
             MACD.append(EMA12[i-25]-EMA26[i-25])
         
-     
+'''
 maxMA = max(MA)
 minMA = min(MA)
 maxMACD = max(MACD)
@@ -73,13 +73,13 @@ for i in range(0,len(MACD)):
     MACD[i] = (MACD[i] - mean(MACD))/(maxMACD-minMACD)
 for i in range(0,len(D)):
     D[i] = (D[i] - mean(D))/(maxD-minD)    
+'''
     
-    
-t_data = [cp[26:],MA[11:],MACD,K[11:],D[10:],R[11:],trend[26:]]
+t_data = [cp[26:],MA[11:],MACD,K[11:],D[9:],R[11:],trend[26:]]
 df = pd.DataFrame(t_data)
 df = df.T
 df.columns = ['CP','MA','MACD','K','D','R','Trend']
-export_csv = df.to_csv (r'gptrendnormal.csv', index = None, header=True)
+export_csv = df.to_csv (r'sqtrend.csv', index = None, header=True)
 
 
 #plt.plot(cp[15:])
