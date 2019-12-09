@@ -29,7 +29,7 @@ with open('gpdata.csv') as csv_file:
             line_count += 1
         else:
             gp_price.append(truncate(float(row[1]),2))
-            gp_trend.append(truncate(float(row[7]),2))
+            gp_trend.append(truncate(float(row[8]),2))
             line_count += 1
 with open('sqdata.csv') as csv_file:
     sq_csv_reader = csv.reader(csv_file, delimiter=',')
@@ -40,7 +40,7 @@ with open('sqdata.csv') as csv_file:
             line_count += 1
         else:
             sq_price.append(truncate(float(row[1]),2))
-            sq_trend.append(truncate(float(row[7]),2))
+            sq_trend.append(truncate(float(row[8]),2))
             line_count += 1
             
             
