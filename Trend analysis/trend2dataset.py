@@ -12,7 +12,7 @@ import tensorflow as tf
 from statistics import mean
 
 
-data = pd.read_csv("gpdata.csv")
+data = pd.read_csv("sqdata.csv")
 cp = (data.iloc[:,1].values).astype('float32')
 high = (data.iloc[:,3].values).astype('float32')
 low = (data.iloc[:,4].values).astype('float32')
@@ -79,7 +79,7 @@ t_data = [cp[26:],MA[11:],MACD,K[11:],D[9:],R[11:],trend[26:]]
 df = pd.DataFrame(t_data)
 df = df.T
 df.columns = ['CP','MA','MACD','K','D','R','Trend']
-export_csv = df.to_csv (r'gptrend.csv', index = None, header=True)
+export_csv = df.to_csv (r'sqtrend.csv', index = None, header=True)
 
 
 #plt.plot(cp[15:])
