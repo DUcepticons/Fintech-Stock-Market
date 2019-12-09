@@ -13,7 +13,9 @@ gp_price = []
 sq_price = []
 gp_trend=[]
 sq_trend=[]
-
+gp_sentiment=[]
+sq_sentiment=[]
+both_sentiment=[]
 #read gp and square stock values from csv file
 import csv
 import random 
@@ -29,7 +31,7 @@ with open('gpdata.csv') as csv_file:
             line_count += 1
         else:
             gp_price.append(truncate(float(row[1]),2))
-            gp_trend.append(truncate(float(row[8]),2))
+            gp_trend.append(truncate(float(row[7]),2))
             line_count += 1
 with open('sqdata.csv') as csv_file:
     sq_csv_reader = csv.reader(csv_file, delimiter=',')
@@ -40,7 +42,27 @@ with open('sqdata.csv') as csv_file:
             line_count += 1
         else:
             sq_price.append(truncate(float(row[1]),2))
-            sq_trend.append(truncate(float(row[8]),2))
+            sq_trend.append(truncate(float(row[7]),2))
+            line_count += 1
+with open('gp_sentiment.csv') as csv_file:
+    gp_sent_reader = csv.reader(csv_file, delimiter=',')
+    line_count = 0
+    for row in gp_sent_reader:
+        if line_count == 0:
+            
+            line_count += 1
+        else:
+            gp_sentiment.append(truncate(float(row[1]),2))
+            line_count += 1
+with open('sq_sentiment.csv') as csv_file:
+    sq_sent_reader = csv.reader(csv_file, delimiter=',')
+    line_count = 0
+    for row in sq_sent_reader:
+        if line_count == 0:
+            
+            line_count += 1
+        else:
+            sq_sentiment.append(truncate(float(row[1]),2))
             line_count += 1
             
             
@@ -131,7 +153,7 @@ def f2(state_array,x):
 
 #Feature 3 is Trend
 def f3(state_array,x):
-    trend= state_array[5]+state_array[6]  
+    trend= state_array[7]+state_array[8]  
     if x=="b":
         return 2*trend
     if x=="s":
@@ -139,9 +161,20 @@ def f3(state_array,x):
     if x=="h":
         return trend/2
     
+def f4(state_array,x):
+
+    Sentiment=state_array[5]+state_array[6]
+    if x=="b":
+        return 2*Sentiment
+    if x=="s":
+        return 2-Sentiment
+    if x=="h":
+        return Sentiment/2
+    
+    
 #check in "Reference screenshots" folder: q value formula.png   
 def q_value(state_array,action):
-    return weight[0]*f0(state_array,action)+weight[1]*f1(state_array,action)+weight[2]*f2(state_array,action)+weight[3]*f3(state_array,action)
+    return weight[0]*f0(state_array,action)+weight[1]*f1(state_array,action)+weight[2]*f2(state_array,action)+weight[3]*f3(state_array,action)+weight[4]*f4(state_array,action)
 
 #returns the action which produces the maximum q value for the state, basically this is a code for finding maximum of 3 numbers, will make better implementation later
 def optimal_action(state_array):
@@ -195,9 +228,9 @@ exploration=0.000000001
 iteration=15 
 
 #This is the state vector, initially starting with 0 stocks in hand
-state=[0,0,gp_price[iteration],sq_price[iteration],initial_tk,gp_trend[iteration],sq_trend[iteration]] #(Stock 1 in hand, Stock 2 in hand, Stock 1 price, Stock 2 Price, Cash in hand)
+state=[0,0,gp_price[iteration],sq_price[iteration],initial_tk,gp_sentiment[iteration],sq_sentiment[iteration],gp_trend[iteration],sq_trend[iteration]] #(Stock 1 in hand, Stock 2 in hand, Stock 1 price, Stock 2 Price, Cash in hand)
 #Took 3 random weight values which will be updated by the algorithm
-weight=[1,1,1,1]
+weight=[1,1,1,1,1]
 
 #Taking the optimal action of the first state
 action= optimal_action(state)
@@ -228,8 +261,10 @@ while(total_iteration<=finish_point):
     iteration+=1
     state[2]=gp_price[iteration]
     state[3]=sq_price[iteration]
-    state[5]=gp_trend[iteration]
-    state[6]=sq_trend[iteration]
+    state[5]=gp_sentiment[iteration]
+    state[6]=sq_sentiment[iteration]
+    state[7]=gp_trend[iteration]
+    state[8]=sq_trend[iteration]
 
     #check in "Reference screenshots" folder: difference.png   
     print('Buy:',q_value(state,"b"),' Hold:',q_value(state,"s"),' Sell:',q_value(state,"h"))
@@ -242,10 +277,11 @@ while(total_iteration<=finish_point):
     weight[1] = weight[1] - exploration * difference* f1(prev_state, prev_action)
     weight[2] = weight[2] - exploration * difference* f2(prev_state, prev_action) 
     weight[3] = weight[3] - exploration * difference* f3(prev_state, prev_action) 
+    weight[4] = weight[4] - exploration * difference* f4(prev_state, prev_action)
     
     if iteration>2360:
         iteration=15
         total_iteration+=1
-        state=[0,0,gp_price[iteration],sq_price[iteration],initial_tk,gp_trend[iteration],sq_trend[iteration]]
-    print(weight)
+        state=[0,0,gp_price[iteration],sq_price[iteration],initial_tk,gp_sentiment[iteration],sq_sentiment[iteration],gp_trend[iteration],sq_trend[iteration]]
+    #print(weight)
 
