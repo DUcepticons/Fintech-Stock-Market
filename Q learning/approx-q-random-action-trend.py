@@ -18,7 +18,7 @@ sq_trend=[]
 import csv
 import random 
 total_iteration=0
-finish_point=30 #10
+finish_point=15 #10
 
 with open('gpdata.csv') as csv_file:
     gp_csv_reader = csv.reader(csv_file, delimiter=',')
@@ -222,7 +222,7 @@ while(total_iteration<=finish_point):
         reward_up+=1
     else:
         reward_down+=1
-    print(reward,iteration)
+    print("Iteration: ",iteration)
  
     #Then we update the stock prices of the state to the ones of next day  
     iteration+=1
@@ -236,7 +236,7 @@ while(total_iteration<=finish_point):
     difference= q_value(prev_state,prev_action) - ( reward + discount* max(q_value(state,"b"),q_value(state,"h"),q_value(state,"s")) )
     #we update the action variable to the next optimal action
     action= optimal_action(state)
-
+    print("Optimal action: ", action)
     #We update the weights here, check in "Reference screenshots" folder: weight update.png      
     weight[0] = weight[0] - exploration * difference* f0(prev_state, prev_action)
     weight[1] = weight[1] - exploration * difference* f1(prev_state, prev_action)
@@ -247,5 +247,6 @@ while(total_iteration<=finish_point):
         iteration=15
         total_iteration+=1
         state=[0,0,gp_price[iteration],sq_price[iteration],initial_tk,gp_trend[iteration],sq_trend[iteration]]
-    print(weight)
-
+    print("Weights: ",weight)
+    print("Reward: ",reward)
+    print('\n')

@@ -54,26 +54,7 @@ for i in range(15,len(data)):
             
             MACD.append(EMA12[i-25]-EMA26[i-25])
         
-'''
-maxMA = max(MA)
-minMA = min(MA)
-maxMACD = max(MACD)
-minMACD = min(MACD)
-maxK = max(K)
-minK = min(K)
-maxD = max(D)
-minD = min(D)
-maxR = max(R)
-minR = min(R)
-for i in range(0,len(MA)):
-    MA[i] = (MA[i] - mean(MA))/(maxMA-minMA)
-    K[i] = (K[i] - mean(K))/(maxK-minK)
-    R[i] = (R[i] - mean(R))/(maxR-minR)
-for i in range(0,len(MACD)):
-    MACD[i] = (MACD[i] - mean(MACD))/(maxMACD-minMACD)
-for i in range(0,len(D)):
-    D[i] = (D[i] - mean(D))/(maxD-minD)    
-'''
+
     
 t_data = [cp[26:],MA[11:],MACD,K[11:],D[9:],R[11:],trend[26:]]
 df = pd.DataFrame(t_data)
@@ -81,18 +62,3 @@ df = df.T
 df.columns = ['CP','MA','MACD','K','D','R','Trend']
 export_csv = df.to_csv (r'gptrend.csv', index = None, header=True)
 
-
-#plt.plot(cp[15:])
-
-'''
-model = tf.keras.models.Sequential()
-model.add(tf.keras.layers.Dense(100, activation=tf.nn.relu))
-model.add(tf.keras.layers.Dense(100, activation=tf.nn.relu))
-model.add(tf.keras.layers.Dense(1, activation=tf.nn.relu))
-
-model.compile(optimizer="adam", loss="mean_squared_error")
-model.fit(X_train, Y_train, epochs=500)
-model.evaluate(X_test,Y_test)
-
-prediction = model.predict(X_check)
-'''
