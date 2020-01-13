@@ -9,7 +9,7 @@ def truncate(n, decimals=0):
     multiplier = 10 ** decimals
     return int(n * multiplier) / multiplier
 
-csv_files=['gpdata_new.csv','sqdata_new.csv']
+csv_files=['sqdata_new.csv','gpdata_new.csv']
 no_of_companies=len(csv_files)
 prices=[]
 csv_reader=[]
@@ -25,6 +25,57 @@ finish_point=15#10
 
 
 
+#read dates to an array
+
+dates=[]
+
+
+with open('dates.csv') as csv_file:
+    date_csv_reader = csv.reader(csv_file, delimiter=',')
+    line_count = 0
+    for row in date_csv_reader:
+        if line_count!=0:
+            dates.append(str(row[0]))
+        line_count+=1
+
+
+
+                                        
+#read gp and square stock values from csv file
+for i in range (0,no_of_companies):
+    csv_reader.append(0)
+    prices.append([])
+    with open(csv_files[i]) as csv_file:
+        csv_reader[i] = csv.reader(csv_file, delimiter=',')
+        line_count = 0
+        date_count = 0
+        prev_price=0
+        for row in csv_reader[i]:
+            if line_count == 0:
+
+                line_count += 1
+            else:
+                
+                if dates[date_count] == row[0]:
+
+                    
+                    prices[i].append(truncate(float(row[1]),2))
+                    prev_price=truncate(float(row[1]),2) #in case of unavailable price for next day, this is needed
+                    date_count+=1
+                    
+                else: #fill the gaps for missing dates
+                    while(dates[date_count]!= row[0]):
+                        #trying to guess the missing price
+                        prev_price= prev_price + truncate(random.uniform(0.7,1),3)*(truncate(float(row[1]),2) - prev_price)
+                        prices[i].append(prev_price)
+                        
+                        date_count+=1
+                    prices[i].append(truncate(float(row[1]),2))
+                    prev_price=truncate(float(row[1]),2) #in case of unavailable price for next day, this is needed
+                    date_count+=1
+                    
+                line_count += 1
+"""                
 #read gp and square stock values from csv file
 for i in range (0,no_of_companies):
     csv_reader.append(0)
@@ -39,8 +90,9 @@ for i in range (0,no_of_companies):
             else:
                 prices[i].append(truncate(float(row[1]),2))
                 line_count += 1
+                    
 
-
+"""
 #Sells all stocks in hand and converts to cash
 def sell(state_array):
     for i in range(0, no_of_companies):
@@ -49,11 +101,7 @@ def sell(state_array):
         state_array[i] = 0
 
 
-"""
-Determines which stock is better looking at previous 15 day net change value
-The stock which has increased more tk and decreased less tk is the the better one
-Then we will buy the better stock in this iteration
-"""
+
 def buy(state_array,iteration_number):
 
 
@@ -280,9 +328,10 @@ while(total_iteration<=finish_point):
     weight[0] = weight[0] - exploration * difference* f0(prev_state, prev_action)
     weight[1] = weight[1] - exploration * difference* f1(prev_state, prev_action)
     weight[2] = weight[2] - exploration * difference* f2(prev_state, prev_action)
-
+    print(iteration)
     if iteration>2360:
         iteration=15
+        
         total_iteration+=1
         state=[]
         for i in range(0, no_of_companies):
