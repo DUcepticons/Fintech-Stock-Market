@@ -16,6 +16,7 @@ csv_reader=[]
 
 import csv
 import random
+random.seed( 30 )
 import math
 import numpy as np
 from scipy.optimize import minimize

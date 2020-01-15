@@ -9,13 +9,14 @@ def truncate(n, decimals=0):
     multiplier = 10 ** decimals
     return int(n * multiplier) / multiplier
 
-csv_files=['sqdata_new.csv','gpdata_new.csv']
+csv_files=['inteldata.csv','appledata.csv']
 no_of_companies=len(csv_files)
 prices=[]
 csv_reader=[]
 
 import csv
 import random
+random.seed( 30 )
 import math
 import numpy as np
 from scipy.optimize import minimize
@@ -66,7 +67,7 @@ for i in range (0,no_of_companies):
                 else: #fill the gaps for missing dates
                     while(dates[date_count]!= row[0]):
                         #trying to guess the missing price
-                        prev_price= prev_price + truncate(random.uniform(0.7,1),3)*(truncate(float(row[1]),2) - prev_price)
+                        prev_price= prev_price + truncate(random.uniform(0.6,0.8),3)*(truncate(float(row[1]),2) - prev_price)
                         prices[i].append(prev_price)
                         
                         date_count+=1
@@ -328,8 +329,8 @@ while(total_iteration<=finish_point):
     weight[0] = weight[0] - exploration * difference* f0(prev_state, prev_action)
     weight[1] = weight[1] - exploration * difference* f1(prev_state, prev_action)
     weight[2] = weight[2] - exploration * difference* f2(prev_state, prev_action)
-    print(iteration)
-    if iteration>2360:
+
+    if iteration>3650:
         iteration=15
         
         total_iteration+=1
