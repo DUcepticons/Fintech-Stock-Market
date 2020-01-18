@@ -344,5 +344,8 @@ while(total_iteration<=finish_point):
         #(Number of each Stock in hand, Each Stock price, Cash in hand)
     #print("Weights: ",weight)
     if total_iteration>14:
+        print("Total Iteration: ",total_iteration," Date: ",dates[iteration])
+        print(state)
         print("Reward: ",reward)
-        print('\n')
+        print(action)
+    print("\n")
