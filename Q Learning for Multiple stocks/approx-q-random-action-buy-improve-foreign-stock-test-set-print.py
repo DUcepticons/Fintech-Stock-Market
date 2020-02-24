@@ -183,7 +183,7 @@ def get_value(state_array):
 
 #Defining the features
 
-#Feature 0 is Number of Stocks of each asset, multiplying a random number for each action to normalize value, which is found by testing :3
+#Feature 0 is Number of Stocks of each asset
 def f0(state_array,x):
     number_of_stocks=0
     for i in range(0, no_of_companies):
