@@ -9,7 +9,7 @@ training code from https://machinelearningmastery.com/multi-class-classification
 import numpy as np
 import pandas as pd
 import tensorflow as tf
-import seaborn as sns
+
 import matplotlib.pyplot as plt
 
 from sklearn.model_selection import cross_val_score
@@ -90,9 +90,11 @@ def baseline_model():
     model.add(tf.keras.layers.Dense(3, activation='softmax'))
 	# Compile model
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    model.save("applestockdata.h5")
     return model
 
 estimator = tf.keras.wrappers.scikit_learn.KerasClassifier(build_fn=baseline_model, epochs=50, batch_size=50, verbose=1)
-kfold = KFold(n_splits=10, shuffle=True)
+kfold = KFold(n_splits=5, shuffle=True)
 results = cross_val_score(estimator, X, dummy_y, cv=kfold)
 print("Baseline: %.2f%% (%.2f%%)" % (results.mean()*100, results.std()*100))
+
