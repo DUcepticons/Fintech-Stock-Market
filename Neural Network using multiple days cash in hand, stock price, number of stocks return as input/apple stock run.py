@@ -3,7 +3,6 @@
 Created on Thu Dec  5 12:47:20 2019
 
 @author: raiyaan
-training code from https://machinelearningmastery.com/multi-class-classification-tutorial-keras-deep-learning-library/
 """
 
 import numpy as np
@@ -17,7 +16,7 @@ from sklearn.model_selection import KFold
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 from sklearn.pipeline import Pipeline
 
-raw_data = pd.read_csv("appledata-output-categorical.csv")
+raw_data = pd.read_csv("appledata-test.csv")
 
 days=4 #We take features of n number of days as input and action of the nth day as output and construct a dataframe from this
 
@@ -71,30 +70,6 @@ X = (data.iloc[:,0:-1].values).astype('float32')
 Y = (data.iloc[:,-1].values)
 
 
-# encode class values as integers
-encoder = LabelEncoder()
-encoder.fit(Y)
-encoded_Y = encoder.transform(Y)
-# convert integers to dummy variables (i.e. one hot encoded)
-dummy_y = tf.keras.utils.to_categorical(encoded_Y)
-
-
-# define baseline model
-def baseline_model():
-	# create model
-    model = tf.keras.models.Sequential()
-    model.add(tf.keras.layers.Dense(50, input_dim= days*4, activation='sigmoid'))
-    model.add(tf.keras.layers.Dense(100, activation='sigmoid'))
-    model.add(tf.keras.layers.Dense(100, activation='sigmoid'))
-    model.add(tf.keras.layers.Dense(30, activation='sigmoid'))
-    model.add(tf.keras.layers.Dense(3, activation='softmax'))
-	# Compile model
-    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-    model.save("applestockdata.h5")
-    return model
-
-estimator = tf.keras.wrappers.scikit_learn.KerasClassifier(build_fn=baseline_model, epochs=50, batch_size=50, verbose=1)
-kfold = KFold(n_splits=5, shuffle=True)
-results = cross_val_score(estimator, X, dummy_y, cv=kfold)
-print("Baseline: %.2f%% (%.2f%%)" % (results.mean()*100, results.std()*100))
+model = tf.keras.models.load_model("applestockdata.h5")
+prediction = model.predict(X)
 

@@ -25,10 +25,11 @@ encoded_Y = encoder.transform(Y)
 # convert integers to dummy variables (i.e. one hot encoded)
 dummy_y = tf.keras.utils.to_categorical(encoded_Y)
 
+model = tf.keras.models.Sequential()
 # define baseline model
 def baseline_model():
 	# create model
-	model = tf.keras.models.Sequential()
+	
 	model.add(tf.keras.layers.Dense(8, input_dim=4, activation='relu'))
 	model.add(tf.keras.layers.Dense(3, activation='softmax'))
 	# Compile model
@@ -39,3 +40,4 @@ estimator = tf.keras.wrappers.scikit_learn.KerasClassifier(build_fn=baseline_mod
 kfold = KFold(n_splits=10, shuffle=True)
 results = cross_val_score(estimator, X, dummy_y, cv=kfold)
 print("Baseline: %.2f%% (%.2f%%)" % (results.mean()*100, results.std()*100))
+model.save("irisdata.h5")

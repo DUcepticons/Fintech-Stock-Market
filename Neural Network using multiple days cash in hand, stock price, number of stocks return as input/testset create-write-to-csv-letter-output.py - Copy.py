@@ -119,7 +119,7 @@ def get_value(state_array):
 initial_tk=1000
 
 for i in range (0,no_of_companies):
-    filename= csv_files[i][:-4]+"-output-categorical.csv"
+    filename= csv_files[i][:-4]+"-test.csv"
     
     with open(filename, 'w', newline='') as file:
         writer = csv.writer(file)
@@ -139,7 +139,7 @@ for i in range (0,no_of_companies):
         print("State: ",state)
             
         #Main loop starts here
-        while(iteration<3285):
+        while(iteration<3650):
             print(iteration)
             prev_state=state[:]
             hold_state=state[:] 
@@ -162,13 +162,13 @@ for i in range (0,no_of_companies):
             action_index=rewards.index(max(rewards))
             if action_index==0:
                 state=hold_state[:]
-                action="0"
+                action="h"
             elif action_index==1:
                 state=buy_state[:]
-                action="1"
+                action="b"
             elif action_index==2:
                 state=sell_state[:]
-                action="2"
+                action="s"
         
 
 
